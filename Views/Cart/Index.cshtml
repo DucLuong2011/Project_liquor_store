@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Project_WAD.Models.Cart>
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/customer/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate mb-5 text-center">
+                <p class="breadcrumbs mb-0"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Cart <i class="fa fa-chevron-right"></i></span></p>
+                <h2 class="mb-0 bread">My Cart</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="table-wrap" style="width: 100%;">
+                <table class="table">
+                    <thead class="thead-primary">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cart in Model)
+                        {
+                            <tr class="alert" role="alert">
+                                <td>
+                                    <div class="img" style="background-image: url(/admin/images/@cart.Image);"></div>
+                                </td>
+                                <td>
+                                    <div class="email">
+                                        <span>@cart.Name</span>
+                                    </div>
+                                </td>
+                                <td>$@cart.Price</td>
+                                <td>
+                                    <form asp-action="Update" asp-controller="Cart" method="get">
+                                        <input type="hidden" name="id" value="@cart.Id" />
+                                        <input type="hidden" name="price" value="@cart.Price" />
+                                        <input type="number" name="quantity" value="@cart.Quantity" style="width:60px;text-align:center" />
+                                        <button type="submit" class="btn btn-success" style="font-size:13px"><i class="fa fa-check-square-o"></i></button>
+                                    </form>
+                                </td>
+                                <td>$@cart.Total</td>
+                                <td>
+                                    <span aria-hidden="true"><a asp-action="Remove" asp-controller="Cart" asp-route-id="@cart.Id"><i class="fa fa-close" style="font-size:20px"></i></a></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Cart Totals</h3>
+                    <p class="d-flex">
+                        <span>Subtotal</span>
+                        <span>$20.60</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Delivery</span>
+                        <span>$0.00</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Discount</span>
+                        <span>$3.00</span>
+                    </p>
+                    <hr>
+                    <p class="d-flex total-price">
+                        <span>Total</span>
+                        <span>$17.60</span>
+                    </p>
+                </div>
+                <a asp-action="Clear" asp-controller="Cart"class="btn btn-primary" onclick="return confirm('Are you sure ?')">Clear shopping</a>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-primary mt-3">Continue shopping</a>
+
+                <a class="btn btn-primary mt-3" asp-area="" asp-controller="Home" asp-action="CheckOut">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
